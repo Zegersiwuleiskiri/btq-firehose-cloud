@@ -1,7 +1,7 @@
 name: cloud-tap
 on:
   schedule:
-    - cron: '*/4 * * * *'
+    - cron: '*/20 * * * *'
   workflow_dispatch:
 permissions:
   contents: read
