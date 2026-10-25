@@ -72,6 +72,9 @@ new={"firehose":"LIVE-CLOUD","updated":datetime.datetime.now(datetime.timezone.u
 "clients_rows_latest15":prows_sorted[:15] if pays else []}
 for k in ("clients_total","clients_with_phone","clients_dossier_top20"):
     if k in prev and prev[k] is not None: new[k]=prev[k]
+# 🥷 THE-TIMING-DECOUPLING:---random-pause-BETWEEN-the-Ably-read+the-npoint-PATCH (breaks-the-timing-fingerprint!)
+import time as _t, random as _r
+_t.sleep(_r.uniform(2,8))
 page=curl(["-H","Cookie: _npoint_session="+CK,"-H","User-Agent: Mozilla/5.0","https://www.npoint.io/docs/"+B])
 m=re.search(r'csrf-token" content="([^"]+)',page)
 if not m: print("no-csrf"); raise SystemExit
