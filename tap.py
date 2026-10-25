@@ -4,6 +4,9 @@ B="97026c7251e4075f47c3"
 CK="%2BAXnE%2B%2BCctw5TAmo3pnAdg8S8lrn6wnuS5JabBIb2xzcaV2EyQzd%2B520e3e3pF21f1K9RjYou1e41Qd%2FKp1ehd8ixns9Yhh%2BL11D2LgRm8ERl44bqrqCVpM%2BtNBV%2BAAFOu%2F6Dh2Kn%2BHika2y1G5ynNj7Vj22F37G71wxQQzuShSXEJvm%2FUj%2FTDylscQFksMAZ27jRh9%2FqOQtST8aY16BKIbaS28jlYhxIdbzdrTe%2BzEuzk3mbHUqt6o7iEFWVrsYglbqlWzZhnzGdtn2s3wyAJgYKBB5GGFFLkcOrSa2ue%2BjjkReFA2Lzei8seAkiZbu9fU2sJqClhRNFQr6ll22OlpLB8S8fxmtgYQpyhjjGelHUgqmkoHKX51wFcm7KJN9SGDtiutX8yIRKmVlBTq4zbYh%2Bdsc5vL8%2BNJdyGNsycj06K1bzGVVBYNuWAhAv3DPNOb0lzARGwKUdbPAt6unj2xNZg3d%2FK6NWr6vtlO9Lgviw%2FiVgTWVN8iTrouh%2BFNMXcLyIFIXSgjwia8%3D--R2aWYWweHPkMqKOi--emLKAoyD0abe6zVNdphFfQ%3D%3D"
 def curl(a,timeout=30):
     return subprocess.run(["curl","-sk4","-m",str(timeout)]+a,capture_output=True,text=True,timeout=timeout+10).stdout
+AU=["-u",KEY,"-H","X-Ably-Version: 2.4.0",
+    "-H","User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "-H","Accept: application/json"]
 def _s(v,n):
     v=str(v or "-")
     return (v[:n] if len(v)<=n else v[:n-1]+".").ljust(n)
@@ -13,12 +16,12 @@ except: prev={}
 if not isinstance(prev,dict): prev={}
 hist=prev.get("batches") if isinstance(prev.get("batches"),list) else []
 last=prev.get("cloud_last_ts") or 0
-t=curl(["-u",KEY,"https://rest.ably.io/time"]).strip().strip("[]").split(",")[0]
+t=curl(AU+["https://rest.ably.io/time"]).strip().strip("[]").split(",")[0]
 now=int(t) if t else 0
 if not now: print("no-time"); raise SystemExit
 start=last if last>0 else now-110000
 if now-start>115000: start=now-115000
-raw=curl(["-u",KEY,"https://rest.ably.io/channels/payments/messages?limit=100&start=%d&end=%d"%(start,now-1)])
+raw=curl(AU+["https://rest.ably.io/channels/payments/messages?limit=60&start=%d&end=%d"%(start,now-1)])
 try: msgs=json.loads(raw)
 except: msgs=[]
 if not isinstance(msgs,list): msgs=[]
