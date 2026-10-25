@@ -1,18 +1,6 @@
 name: cloud-tap
 on:
   schedule:
-    - cron: '*/3 * * * *'
-  workflow_dispatch:
-permissions:
-  contents: read
-jobs:
-  tap:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: python3 tap.pyname: cloud-tap
-on:
-  schedule:
     - cron: '*/4 * * * *'
   workflow_dispatch:
 permissions:
@@ -23,4 +11,3 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 tap.py
-
