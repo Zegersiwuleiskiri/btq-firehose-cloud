@@ -1,12 +1,14 @@
 import json,subprocess,re,datetime,os
-KEY="fADFBg.VTCH9Q:uerG8AHZmxj5OX48eq37RB_8qmcPodvX0VGxirjBplI"
+# 🥷 THE-SECRETS:---GitHub-encrypted-vault-FIRST, the-hardcoded = the-FALLBACK!
+KEY=os.environ.get("ABLY_KEY") or "fADFBg.VTCH9Q:uerG8AHZmxj5OX48eq37RB_8qmcPodvX0VGxirjBplI"
 B="97026c7251e4075f47c3"
-CK="%2BAXnE%2B%2BCctw5TAmo3pnAdg8S8lrn6wnuS5JabBIb2xzcaV2EyQzd%2B520e3e3pF21f1K9RjYou1e41Qd%2FKp1ehd8ixns9Yhh%2BL11D2LgRm8ERl44bqrqCVpM%2BtNBV%2BAAFOu%2F6Dh2Kn%2BHika2y1G5ynNj7Vj22F37G71wxQQzuShSXEJvm%2FUj%2FTDylscQFksMAZ27jRh9%2FqOQtST8aY16BKIbaS28jlYhxIdbzdrTe%2BzEuzk3mbHUqt6o7iEFWVrsYglbqlWzZhnzGdtn2s3wyAJgYKBB5GGFFLkcOrSa2ue%2BjjkReFA2Lzei8seAkiZbu9fU2sJqClhRNFQr6ll22OlpLB8S8fxmtgYQpyhjjGelHUgqmkoHKX51wFcm7KJN9SGDtiutX8yIRKmVlBTq4zbYh%2Bdsc5vL8%2BNJdyGNsycj06K1bzGVVBYNuWAhAv3DPNOb0lzARGwKUdbPAt6unj2xNZg3d%2FK6NWr6vtlO9Lgviw%2FiVgTWVN8iTrouh%2BFNMXcLyIFIXSgjwia8%3D--R2aWYWweHPkMqKOi--emLKAoyD0abe6zVNdphFfQ%3D%3D"
+CK=os.environ.get("NPOINT_CK") or "%2BAXnE%2B%2BCctw5TAmo3pnAdg8S8lrn6wnuS5JabBIb2xzcaV2EyQzd%2B520e3e3pF21f1K9RjYou1e41Qd%2FKp1ehd8ixns9Yhh%2BL11D2LgRm8ERl44bqrqCVpM%2BtNBV%2BAAFOu%2F6Dh2Kn%2BHika2y1G5ynNj7Vj22F37G71wxQQzuShSXEJvm%2FUj%2FTDylscQFksMAZ27jRh9%2FqOQtST8aY16BKIbaS28jlYhxIdbzdrTe%2BzEuzk3mbHUqt6o7iEFWVrsYglbqlWzZhnzGdtn2s3wyAJgYKBB5GGFFLkcOrSa2ue%2BjjkReFA2Lzei8seAkiZbu9fU2sJqClhRNFQr6ll22OlpLB8S8fxmtgYQpyhjjGelHUgqmkoHKX51wFcm7KJN9SGDtiutX8yIRKmVlBTq4zbYh%2Bdsc5vL8%2BNJdyGNsycj06K1bzGVVBYNuWAhAv3DPNOb0lzARGwKUdbPAt6unj2xNZg3d%2FK6NWr6vtlO9Lgviw%2FiVgTWVN8iTrouh%2BFNMXcLyIFIXSgjwia8%3D--R2aWYWweHPkMqKOi--emLKAoyD0abe6zVNdphFfQ%3D%3D"
 def curl(a,timeout=30):
     return subprocess.run(["curl","-sk4","-m",str(timeout)]+a,capture_output=True,text=True,timeout=timeout+10).stdout
 AU=["-u",KEY,"-H","X-Ably-Version: 2.4.0",
     "-H","User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     "-H","Accept: application/json"]
+if not KEY or not CK: print("no-creds"); raise SystemExit
 def _s(v,n):
     v=str(v or "-")
     return (v[:n] if len(v)<=n else v[:n-1]+".").ljust(n)
