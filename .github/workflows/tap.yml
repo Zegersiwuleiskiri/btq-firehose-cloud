@@ -11,3 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 tap.py
+        env:
+          ABLY_KEY: ${{ secrets.ABLY_KEY }
+          NPOINT_CK: ${{ secrets.NPOINT_CK }
